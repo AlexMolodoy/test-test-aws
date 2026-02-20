@@ -2,9 +2,20 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { useAuthenticator } from '@aws-amplify/ui-react';
 
 function App() {
   const [count, setCount] = useState(0)
+  const { signOut } = useAuthenticator();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      console.log('Пользователь успешно вышел');
+    } catch (error) {
+      console.log('Ошибка при выходе:', error);
+    }
+  };
 
   return (
     <>
@@ -20,6 +31,9 @@ function App() {
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
+        </button>
+        <button onClick={handleSignOut}>
+          sign out
         </button>
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
